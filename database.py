@@ -1,5 +1,6 @@
 from pymongo import MongoClient, ASCENDING
 from pymongo.errors import OperationFailure
+from models import User
 
 class MongoDB:
     def __init__(self, host, port, username, password, database_name):
@@ -19,9 +20,9 @@ class MongoDB:
         except OperationFailure as e:
             print(f"Error al crear el índice único: {e}")
 
-    def insert_user(self, user):
+    def insert_user(self, user: User):
+        #create id and then insert
         result = self.db.users.insert_one(user)
-        return str(result.inserted_id)
 
     def get_user(self, username):
         return self.db.users.find_one({"username": username})
@@ -30,4 +31,11 @@ class MongoDB:
         return list(self.db.users.find())
 
 # Configuración de autenticación
-mongo = MongoDB("localhost", 27017, "root", "CONTRASENA", "usuarios")
+try:
+    mongo = MongoDB("localhost", 27017, "root", "CONTRASENA", "usuarios")
+except Exception as e:
+    print()
+    print("----------------------------------------------------------------")
+    print(" -> ERROR CONENCTING TO DATABASE:  >>>>",e) 
+    print("----------------------------------------------------------------")
+    print()

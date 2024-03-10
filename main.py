@@ -11,8 +11,8 @@ app = FastAPI()
 async def insert_user(user: User):
     try:
         # Lógica para insertar el usuario y obtener el ID
-        id = controller.InsertUser(user)
-        return {"id": id}  # Devolver el ID del usuario
+        user = controller.InsertUser(user)
+        return " User created " # Devolver el ID del usuario
     except Exception as e:
         # Si ocurre un error, lanzar una excepción HTTP con código de estado 500
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e))
